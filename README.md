@@ -1,2 +1,2 @@
-# Py_template
-I am just a template repository!
+## Py_template
+__I am just a Python template repository!__
