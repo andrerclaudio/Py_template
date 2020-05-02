@@ -5,7 +5,7 @@ from datetime import timedelta
 from threading import ThreadError, Thread
 
 # Added modules
-from ttictoc import TicToc
+from pytictoc import TicToc
 
 # Project modules
 
@@ -26,31 +26,16 @@ logger = logging.getLogger(__name__)
 
 class ElapsedTime(object):
     """
-Measure the elapsed time between some "object.t" and "object.elapsed".
+    Measure the elapsed time between Tic and Toc
     """
-
     def __init__(self):
-        self.t = TicToc(__name__)
+        self.t = TicToc()
         self.t.tic()
 
     def elapsed(self):
-        self.t.toc()
-        _elapsed = self.t.elapsed
+        _elapsed = self.t.tocvalue()
         d = timedelta(seconds=_elapsed)
         logger.info('< {} >'.format(d))
-
-
-def run(interval):
-    """ Method that runs forever """
-    while True:
-        try:
-            time.sleep(interval)
-
-        except ThreadError as e:
-            logger.exception('{}'.format(e))
-
-        finally:
-            pass
 
 
 class ThreadingProcessQueue(object):
@@ -68,6 +53,19 @@ class ThreadingProcessQueue(object):
         thread = Thread(target=run, args=(self.interval,), name='Thread_name')
         thread.daemon = True  # Daemonize thread
         thread.start()  # Start the execution
+
+
+def run(interval):
+    """ Method that runs forever """
+    while True:
+        try:
+            time.sleep(interval)
+
+        except ThreadError as e:
+            logger.exception('{}'.format(e))
+
+        finally:
+            pass
 
 
 def application():
